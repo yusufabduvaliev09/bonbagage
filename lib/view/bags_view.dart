@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:bonbagage/router/nav_state.dart';
-
 class BagsView extends StatelessWidget {
   const BagsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final navState = Provider.of<NavState>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(navState.selectedJourneyId ?? "Bags"),
+        title: Text("Bags"),
       ),
       body: ListView(
         children: [

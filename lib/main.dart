@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:bonbagage/router/app_router.dart';
-import 'package:bonbagage/router/nav_state.dart';
-import 'package:bonbagage/router/route_parser.dart';
-import 'package:provider/provider.dart';
+import 'package:bonbagage/view/journeys_view.dart';
+import 'package:bonbagage/view/bags_view.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final navState = NavState();
-    final routerDelegate = AppRouterDelegate(navState);
+  State<MyApp> createState() => _MyAppState();
+}
 
-    return ChangeNotifierProvider<NavState>(
-      create: (_) => navState,
-      child: MaterialApp.router(
-        title: 'BonBagage',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        ),
-        routerDelegate: routerDelegate,
-        routeInformationProvider: PlatformRouteInformationProvider(
-          initialRouteInformation: RouteInformation(
-            uri: Uri.parse('/'),
-          ),
-        ),
-        routeInformationParser: SimpleRouteInformationParser(),
-        backButtonDispatcher: RootBackButtonDispatcher(),
+class _MyAppState extends State<MyApp> {
+  String? selectedJourney; 
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Navigator(
+        pages: [
+          MaterialPage(child: JourneysView(
+            onTap: (title) => setState(() => selectedJourney = title), 
+          )),
+          if (selectedJourney != null)
+            MaterialPage(child: BagsView()), 
+        ],
+        onDidRemovePage: (page) {
+          setState(() => selectedJourney = null); 
+        },
       ),
     );
   }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:bonbagage/router/nav_state.dart';
 
 class CardJourneys extends StatelessWidget {
-  const CardJourneys({super.key, this.title, this.startDate, this.endDate});
+  const CardJourneys({super.key, this.title, this.startDate, this.endDate, this.onTap});
 
   final String? title;
   final String? startDate;
   final String? endDate;
+  final void Function(String)? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +14,8 @@ class CardJourneys extends StatelessWidget {
     final isTable = width >= 600;
     return GestureDetector(
       onTap: () {
-        if (title != null) {
-          final navState = Provider.of<NavState>(context, listen: false);
-          navState.goToBags(title!);
+        if (title != null && onTap != null) {
+          onTap!(title!);
         }
       },
       child: Card(
