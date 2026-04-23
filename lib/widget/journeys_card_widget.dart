@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class CardJourneys extends StatelessWidget {
   const CardJourneys({super.key, this.title, this.startDate, this.endDate, this.onTap});
 
-  final String? title;
-  final String? startDate;
-  final String? endDate;
+  final title;
+  final startDate;
+  final endDate;
   final void Function(String)? onTap;
 
   @override
