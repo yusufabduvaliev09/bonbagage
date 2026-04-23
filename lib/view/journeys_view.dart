@@ -11,11 +11,10 @@ class JourneysView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = JourneysCubit();
     return BlocProvider(
-      create: (context) => JourneysCubit(),
-      child: Builder(
-        builder: (context) {
-          return Scaffold(
+      create: (context) => cubit,
+      child: Scaffold(
             body: BlocBuilder<JourneysCubit, List<JourneysState>>(
               builder: (context, state) {
                 if (state.isEmpty) {
@@ -42,7 +41,7 @@ class JourneysView extends StatelessWidget {
                   elevation: 0,
                   highlightElevation: 0,
                   onPressed: () {
-                    journeyDialog(context);
+                    dialogCubit(context, cubit);
                   },
                   child: const Icon(Icons.add, color: Colors.black54, size: 25),
                 ),
@@ -58,9 +57,7 @@ class JourneysView extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        }
-      ),
+          ),
     );
   }
 }
