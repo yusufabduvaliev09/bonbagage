@@ -28,6 +28,7 @@ class JourneysView extends StatelessWidget {
                       city: obj.title,
                       startDate: obj.startDate,
                       endDate: obj.endDate,
+                      id: obj.id,
                     );
                   },
                 );

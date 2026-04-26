@@ -1,30 +1,56 @@
+import 'package:bonbagage/bloc/journeys_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void returnEditDialogCubit(BuildContext context, String city, String startDate, String endDate) {
+void returnEditDialogCubit(
+  BuildContext context,
+  String city,
+  String startDate,
+  String endDate,
+  int id,
+  JourneysCubit cubit
+) {
   showDialog(
     context: context,
     builder: (editDialogContext) {
       return JourneyEditDialog(
         city: city,
         startDate: startDate,
-        endDate: endDate
+        endDate: endDate,
+        id: id,
+        cubit: cubit,
       );
     },
   );
 }
 
 class JourneyEditDialog extends StatelessWidget {
-  const JourneyEditDialog({super.key, required this.city, required this.startDate, required this.endDate});
+  const JourneyEditDialog({
+    super.key,
+    required this.city,
+    required this.startDate,
+    required this.endDate,
+    required this.id,
+    required this.cubit
+  });
+
+  final JourneysCubit cubit;
 
   final String city;
   final String startDate;
   final String endDate;
+  final int id;
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _controllerCityEdit = TextEditingController(text: city);
-    final TextEditingController _controllerStartDateEdit = TextEditingController(text: startDate);
-    final TextEditingController _controllerEndDateEdit = TextEditingController(text: endDate);
+    final TextEditingController _controllerCityEdit = TextEditingController(
+      text: city,
+    );
+    final TextEditingController _controllerStartDateEdit =
+        TextEditingController(text: startDate);
+    final TextEditingController _controllerEndDateEdit = TextEditingController(
+      text: endDate,
+    );
 
     final BorderRadius border = BorderRadius.all(Radius.circular(12));
     final BorderSide borderSide = BorderSide(width: 3, color: Colors.black26);
@@ -75,7 +101,15 @@ class JourneyEditDialog extends StatelessWidget {
             SizedBox(width: 10),
             ElevatedButton(
               style: elevatedButtonStyle,
-              onPressed: () {},
+              onPressed: () {
+                cubit.updateJourneys(
+                  _controllerCityEdit.text,
+                  _controllerStartDateEdit.text,
+                  _controllerEndDateEdit.text,
+                  id
+                );
+                Navigator.pop(context);
+              },
               child: Text(
                 "Сохранить",
                 style: TextStyle(fontSize: 14, color: Colors.black54),

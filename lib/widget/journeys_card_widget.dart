@@ -1,5 +1,7 @@
+import 'package:bonbagage/bloc/journeys_cubit.dart';
 import 'package:bonbagage/widget/dialog_edit_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CardJourneys extends StatelessWidget {
   const CardJourneys({
@@ -7,11 +9,13 @@ class CardJourneys extends StatelessWidget {
     required this.city,
     required this.startDate,
     required this.endDate,
+    required this.id
   });
 
   final city;
   final startDate;
   final endDate;
+  final id;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,8 @@ class CardJourneys extends StatelessWidget {
     final isTable = width >= 600;
     return GestureDetector(
       onLongPress: () {
-        returnEditDialogCubit(context, city, startDate, endDate);
+        final cubit = context.read<JourneysCubit>();
+        returnEditDialogCubit(context, city, startDate, endDate, id, cubit);
       },
       child: Card(
         color: Color(0xFFf2f2f2),
