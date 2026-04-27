@@ -1,34 +1,78 @@
+import 'package:bonbagage/bloc/journeys_cubit.dart';
 import 'package:flutter/material.dart';
 
-void journeyDialog(BuildContext context) {
-  const BorderRadius border = BorderRadius.all(Radius.circular(12));
-
-  final textFieldDecoration = InputDecoration(
-    hintText: "start date",
-    hintStyle: TextStyle(fontSize: 16, color: Colors.black54),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: border,
-      borderSide: BorderSide(width: 2, color: Colors.black26),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: border,
-      borderSide: BorderSide(width: 3, color: Colors.black26),
-    ),
-  );
-
-  final elevatedButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: Colors.black12,
-    shape: RoundedRectangleBorder(borderRadius: border),
-  );
-
+void returnDialogCubit(BuildContext context, JourneysCubit cubit) {
   showDialog(
     context: context,
-    builder: (BuildContext context) => AlertDialog(
+    builder: (dialogContext) {
+      return JourneyDialog(cubit: cubit);
+    },
+  );
+}
+
+class JourneyDialog extends StatelessWidget {
+  const JourneyDialog({super.key, required this.cubit});
+  final JourneysCubit cubit;
+  
+
+  @override
+  Widget build(BuildContext context) {
+    BorderRadius border = BorderRadius.all(Radius.circular(12));
+  BorderSide borderSide = BorderSide(width: 3, color: Colors.black26);
+
+  final TextEditingController _controllerCity = TextEditingController();
+
+  final TextEditingController _controllerEndDate = TextEditingController();
+
+  final TextEditingController _controllerStartDate = TextEditingController();
+
+    final focusedBorderTextField = OutlineInputBorder(
+      borderRadius: border,
+      borderSide: borderSide,
+    );
+
+    final enableBorderTextField = OutlineInputBorder(
+      borderRadius: border,
+      borderSide: borderSide,
+    );
+
+    final elevatedButtonStyle = ElevatedButton.styleFrom(
+      backgroundColor: Colors.black12,
+      shape: RoundedRectangleBorder(borderRadius: border),
+    );
+
+    return AlertDialog(
       actions: <Widget>[
         SizedBox(height: 10),
-        TextField(cursorColor: Colors.black26, decoration: textFieldDecoration),
+        TextField(
+          controller: _controllerCity,
+          cursorColor: Colors.black26,
+          decoration: InputDecoration(
+            hintText: "City",
+            focusedBorder: focusedBorderTextField,
+            enabledBorder: enableBorderTextField
+          ),
+        ),
         SizedBox(height: 10),
-        TextField(cursorColor: Colors.black26, decoration: textFieldDecoration),
+        TextField(
+          controller: _controllerStartDate,
+          cursorColor: Colors.black26,
+          decoration: InputDecoration(
+            hintText: "start date",
+            focusedBorder: focusedBorderTextField,
+            enabledBorder: enableBorderTextField
+          )
+        ),
+        SizedBox(height: 10),
+        TextField(
+          controller: _controllerEndDate,
+          cursorColor: Colors.black26,
+          decoration: InputDecoration(
+            hintText: "end date",
+            focusedBorder: focusedBorderTextField,
+            enabledBorder: enableBorderTextField
+          ),
+        ),
         SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,7 +89,17 @@ void journeyDialog(BuildContext context) {
             ),
             ElevatedButton(
               style: elevatedButtonStyle,
-              onPressed: () {},
+              onPressed: () {
+                cubit.addJourneys(
+                  _controllerCity.text,
+                  _controllerStartDate.text,
+                  _controllerEndDate.text,
+                );
+                _controllerCity.clear();
+                _controllerStartDate.clear();
+                _controllerEndDate.clear();
+                Navigator.pop(context);
+              },
               child: Text(
                 "Добавить",
                 style: TextStyle(fontSize: 14, color: Colors.black54),
@@ -54,6 +108,6 @@ void journeyDialog(BuildContext context) {
           ],
         ),
       ],
-    ),
-  );
+    );
+  }
 }
