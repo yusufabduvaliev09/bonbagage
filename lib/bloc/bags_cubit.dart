@@ -14,4 +14,26 @@ class BagsCubit extends Cubit<List<BagsState>> {
 
     emit([...state, newBags]);
   }
+
+  void updateBags(String title, int id) {
+    final update = state.map((items) {
+      if (items.id == id) {
+        return items.copyWith(
+          title: title,
+          id: id
+        );
+      } else {
+        return items;
+      }
+    }).toList();
+
+    emit(update);
+  }
+
+  void deleteBags(int id) {
+    final List<BagsState> delete = List.from(state);
+    delete.removeWhere((bags) => bags.id == id);
+
+    emit(delete);
+  }
 }
