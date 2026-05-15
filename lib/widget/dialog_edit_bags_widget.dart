@@ -1,12 +1,13 @@
 import 'package:bonbagage/bloc/bags_cubit.dart';
 import 'package:flutter/material.dart';
 
-void showDialogEditBags(
-  BuildContext context,
-  String bagsName,
-  BagsCubit cubit,
-  int id,
-) {
+void showDialogEditBags({
+  required BuildContext context,
+  required String bagsName,
+  required BagsCubit cubit,
+  required int id
+  }) {
+    
   showDialog(
     context: context,
     builder: (bagsContext) {
@@ -57,6 +58,19 @@ class DialogEditBagsWidget extends StatelessWidget {
     );
 
     return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: _controllerBags,
+            decoration: InputDecoration(
+              hintStyle: textStyleHintText,
+              focusedBorder: focusedBorderTextField,
+              enabledBorder: enableBorderTextField,
+            ),
+          ),
+        ],
+      ),
       actions: <Widget>[
         Row(
           children: [
@@ -100,19 +114,6 @@ class DialogEditBagsWidget extends StatelessWidget {
           ],
         ),
       ],
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: _controllerBags,
-            decoration: InputDecoration(
-              hintStyle: textStyleHintText,
-              focusedBorder: focusedBorderTextField,
-              enabledBorder: enableBorderTextField,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

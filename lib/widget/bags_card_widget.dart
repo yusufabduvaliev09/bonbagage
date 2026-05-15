@@ -1,4 +1,5 @@
 import 'package:bonbagage/bloc/bags_cubit.dart';
+import 'package:bonbagage/bloc/bags_state.dart';
 import 'package:bonbagage/widget/dialog_edit_bags_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,34 +7,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class BagsCardWidget extends StatelessWidget {
   const BagsCardWidget({
     super.key,
-    required this.id,
-    required this.title,
+    required this.bag
   });
-
-  final int id;
-  final String title;
+  final BagsState bag;
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onLongPress: () {
         final cubit = context.read<BagsCubit>();
-        showDialogEditBags(context, title, cubit, id);
+        showDialogEditBags(context: context, bagsName: bag.title, cubit: cubit, id: bag.id);
       },
       child: Card(
         color: Color(0xFFf2f2f2),
         child: SizedBox(
-          height: height * 0.1,
+          height: 70,
           child: Row(
             children: [
-              SizedBox(width: 10),
               Padding(
-                padding: const EdgeInsets.only(top: 5),
+                padding: const EdgeInsets.only(top: 5, left: 10),
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    title,
+                    bag.title,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                 ),

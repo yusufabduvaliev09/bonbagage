@@ -2,7 +2,6 @@ import 'package:bonbagage/bloc/bags_cubit.dart';
 import 'package:bonbagage/bloc/bags_state.dart';
 import 'package:bonbagage/widget/bags_card_widget.dart';
 import 'package:bonbagage/widget/dialog_editJourney_widget.dart';
-import 'package:bonbagage/widget/dialog_edit_bags_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,7 +37,7 @@ class EditJourneysView extends StatelessWidget {
                   itemCount: state.length,
                   itemBuilder: (context, index) {
                     final obj = state[index];
-                    return BagsCardWidget(id: obj.id, title: obj.title);
+                    return BagsCardWidget(bag: obj);
                   },
                 );
               },
